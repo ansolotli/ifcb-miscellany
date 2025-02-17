@@ -3,7 +3,7 @@ import pandas as pd
 import os
 
 # root directory of IFCB raw data
-root = "D:/IFCB/data/finnmaid/unzipped/raw"
+root = "D:/IFCB/data/meso22/135/raw"
 maintenance_log = "D:/IFCB/data/maintenance_log_combined.csv"
 log = [] 
 
@@ -20,7 +20,9 @@ TH_roiSize = 1e8
 
 thresholds = {'variable': ['runTime', 'images2triggers_low', 'images2triggers_high', 'roiSize'], 'threshold': [TH_runTime, TH_images2triggers_low, TH_images2triggers_high, TH_roiSize]}
 df_thresholds = pd.DataFrame(thresholds)
-df_thresholds.to_csv("D:/IFCB/data/finnmaid/finnmaid-2023-qc-thresholds.txt", index=False)
+
+# EDIT THE PATH
+df_thresholds.to_csv("D:/IFCB/data/meso22/135/meso22-135-qc-thresholds.txt", index=False)
 
 roiPaths = (roi for roi in Path(root).glob("**/*.roi"))
 
@@ -105,13 +107,16 @@ def process_samples():
 
 process_samples()
 final_df = pd.concat(log)
-final_df.to_csv('D:/IFCB/data/finnmaid/qc-finnmaid-2023-flag-data.csv', index=False)
+
+# EDIT THE PATH
+final_df.to_csv('D:/IFCB/data/meso22/135/qc-meso22-135-flag-data.csv', index=False)
 
 flagged = final_df.apply(lambda row: (row == 1).any(), axis=1)
 flagged_samples = final_df[flagged]
 exclusion_list = flagged_samples.iloc[:, 0].to_list()
 
-with open(r'D:/IFCB/data/finnmaid/sample-exclusion-list-finnmaid-2023.txt', 'w') as fp:
+#EDIT THE PATH
+with open(r'D:/IFCB/data/meso22/135/sample-exclusion-list-meso22-135.txt', 'w') as fp:
     for item in exclusion_list:
         fp.write("%s\n" % item)
 
