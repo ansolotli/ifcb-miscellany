@@ -1,11 +1,13 @@
 import os
 import shutil
 
-extracted_images_folder = "E:/testi"
-output_folder = "E:/testi-out"
+extracted_images_folder = "D:/IFCB/data/extracted-images-cyanobacteria-2024/extracted-images-cyanobacteria-2024"
+output_folder = "D:/IFCB/data/2024-summer-cyanobacteria-images"
 
 def combine_days(extracted_images_folder, output_folder):
     os.makedirs(output_folder, exist_ok=True)
+
+    day_counter = 1
     
     # Loop over each day folder in the base folder
     for day_folder in os.listdir(extracted_images_folder):
@@ -28,6 +30,9 @@ def combine_days(extracted_images_folder, output_folder):
                     output_file = os.path.join(output_species_folder, image)
 
                     shutil.copy2(image_file, output_file)
+        print(f"ok, that was day number {day_counter}")
+        day_counter = day_counter + 1
+
     print("Done!")
 
 combine_days(extracted_images_folder, output_folder)
